@@ -1,38 +1,137 @@
-.App {
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Cards container */
+div {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Card styles */
+.card {
+  background-color: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px auto;
+  width: 300px;
+  text-align: center;
+  color: #555;
+  transition: transform 0.2s ease-in-out;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.card:hover {
+  transform: scale(1.05);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.card h1 {
+  font-size: 1.5em;
+  color: #007bff;
+}
+
+.card p {
+  font-size: 1em;
+  color: #333;
+}
+
+/* CSS */
+.card button {
+  /* theme vars (tweak as needed) */
+  --btn-border: #266DB6;
+  --btn-text:  #00132C;
+  --panel:     #D5EDF6;
+  --panel-hov: #6DCFF6;
+
+  position: relative;
+  z-index: 0; /* create a stacking context so ::before can sit behind */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+  background: transparent;
+  color: var(--btn-text);
+  border: 1px solid var(--btn-border);
+  box-sizing: border-box;
+  font-family: "Avenir Next LT W01 Bold", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+
+  padding: 16px 23px; /* will increase at ≥768px below */
+  text-decoration: none;
+
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  cursor: pointer;
+
+  /* if you have rounded corners on the button, this makes the panel match */
+  border-radius: 6px;
 }
 
-.App-link {
-  color: #61dafb;
+/* remove default outline only if we replace it with a visible one */
+.card button:focus-visible {
+  outline: 2px solid var(--btn-border);
+  outline-offset: 3px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* the offset highlight panel behind the button */
+.card button::before {
+  content: "";
+  position: absolute;
+  /* start as a slightly larger panel */
+  inset: -3px;
+  /* nudge it to mimic your right:-7px, top:-9px offset */
+  transform: translate(7px, -9px);
+  background-color: var(--panel);
+  z-index: -1;           /* behind the button but within the same stacking context */
+  border-radius: inherit; /* match the button’s radius */
+  transition: background-color 300ms ease-in, transform 150ms ease-out;
+  pointer-events: none;  /* don't block clicks */
+}
+
+/* hover: just color change on the panel (like your original) */
+.card button:hover::before {
+  background-color: var(--panel-hov);
+}
+
+/* active/pressed: bring the panel “under” the button for a pressed feel */
+.card button:active::before {
+  transform: translate(0, 0);
+}
+
+/* disabled state */
+.card button:disabled,
+.card button[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .card button,
+  .card button::before {
+    transition: none;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+/* responsive padding (carryover from your snippet) */
+@media (min-width: 768px) {
+  .card button {
+    padding: 16px 32px;
   }
 }
