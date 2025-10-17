@@ -3,12 +3,6 @@ import "./counter.css"
 const Counter = () => {
     const [num, setNum] = useState(0);
 
-    // const handleIncrease = () => {
-    //     setNum(num + 1)
-    // } 
-    // const handleDecrease = () => {
-    //     setNum(num - 1)
-    // }    
     return(
     <div className="app-container">
         <h1 className="counter-heading">Current number {num}</h1>
