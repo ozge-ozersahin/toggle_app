@@ -1,54 +1,92 @@
+/* ---------- Base reset & tokens ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --page-bg: #f4f4f4;
+  --text: #333;
+  --muted: #555;
+  --border: #e0e0e0;
+  --brand: #007bff;
+}
+
+/* ---------- Page ---------- */
+html, body, #root {
+  height: 100%;
+}
+
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  background-color: var(--page-bg);
+  color: var(--text);
+  /* allow scrolling! */
+}
+
+/* An app-level wrapper (wrap your content in <div class="app">) */
+.app {
+  min-height: 100%;
+  padding: 24px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  flex-direction: column;
+  gap: 24px;
 }
 
+/* ---------- Headings ---------- */
 h1 {
+  margin: 0;
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+  color: var(--text);
 }
 
-/* Cards container */
-div {
-  text-align: center;
+/* ---------- Card grid ---------- */
+/* Use this on the parent that holds your cards: <div class="cards"> */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Card styles */
+/* Remove the global "div {text-align:center}" — it's too broad. */
+
+/* ---------- Card ---------- */
 .card {
   background-color: #ffffff;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
   padding: 20px;
-  margin: 10px auto;
-  width: 300px;
+  /* let grid control width */
+  width: 100%;
   text-align: center;
-  color: #555;
+  color: var(--muted);
   transition: transform 0.2s ease-in-out;
 }
 
 .card:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
 }
 
-.card h1 {
-  font-size: 1.5em;
-  color: #007bff;
+.card h1,
+.card h2 {
+  font-size: 1.25rem;
+  color: var(--brand);
+  margin: 0 0 8px 0;
 }
 
 .card p {
-  font-size: 1em;
-  color: #333;
+  font-size: 1rem;
+  color: var(--text);
+  margin: 0 0 16px 0;
 }
 
-/* CSS */
+/* ---------- Your button (unchanged behavior, just namespaced under .card) ---------- */
 .card button {
   /* theme vars (tweak as needed) */
   --btn-border: #266DB6;
@@ -71,7 +109,7 @@ div {
   font-weight: 700;
   line-height: 24px;
 
-  padding: 16px 23px; /* will increase at ≥768px below */
+  padding: 12px 18px;
   text-decoration: none;
 
   user-select: none;
@@ -79,49 +117,40 @@ div {
   touch-action: manipulation;
   cursor: pointer;
 
-  /* if you have rounded corners on the button, this makes the panel match */
   border-radius: 6px;
 }
 
-/* remove default outline only if we replace it with a visible one */
 .card button:focus-visible {
   outline: 2px solid var(--btn-border);
   outline-offset: 3px;
 }
 
-/* the offset highlight panel behind the button */
 .card button::before {
   content: "";
   position: absolute;
-  /* start as a slightly larger panel */
   inset: -3px;
-  /* nudge it to mimic your right:-7px, top:-9px offset */
   transform: translate(7px, -9px);
   background-color: var(--panel);
-  z-index: -1;           /* behind the button but within the same stacking context */
-  border-radius: inherit; /* match the button’s radius */
+  z-index: -1;
+  border-radius: inherit;
   transition: background-color 300ms ease-in, transform 150ms ease-out;
-  pointer-events: none;  /* don't block clicks */
+  pointer-events: none;
 }
 
-/* hover: just color change on the panel (like your original) */
 .card button:hover::before {
   background-color: var(--panel-hov);
 }
 
-/* active/pressed: bring the panel “under” the button for a pressed feel */
 .card button:active::before {
   transform: translate(0, 0);
 }
 
-/* disabled state */
 .card button:disabled,
 .card button[aria-disabled="true"] {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .card button,
   .card button::before {
@@ -129,9 +158,9 @@ div {
   }
 }
 
-/* responsive padding (carryover from your snippet) */
+/* Slightly larger padding on wider screens */
 @media (min-width: 768px) {
   .card button {
-    padding: 16px 32px;
+    padding: 14px 24px;
   }
 }
